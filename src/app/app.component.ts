@@ -10,6 +10,6 @@ import { Component } from '@angular/core';
   `
 })
 export class AppComponent {
-  title = 'app works!';
+  title: String = 'app works!';
   name: String = 'testing';
 }
