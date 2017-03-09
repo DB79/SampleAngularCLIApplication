@@ -9,7 +9,8 @@ module.exports = function (config) {
       require('karma-jasmine'),
       require('karma-chrome-launcher'),
       require('karma-remap-istanbul'),
-      require('angular-cli/plugins/karma')
+      require('angular-cli/plugins/karma'),
+      require('karma-coverage')
     ],
     files: [
       { pattern: './src/test.ts', watched: false }
@@ -18,26 +19,77 @@ module.exports = function (config) {
       './src/test.ts': ['angular-cli']
     },
     mime: {
-      'text/x-typescript': ['ts','tsx']
+      'text/x-typescript': ['ts', 'tsx']
     },
-    remapIstanbulReporter: {
-      reports: {
-        html: 'coverage',
-        lcovonly: './coverage/coverage.lcov'
-      }
-    },
+    // remapIstanbulReporter: {
+    //   reports: {
+    //     html: 'coverage',
+    //     lcovonly: './coverage/coverage.lcov'
+    //   }
+    // },
     angularCli: {
       config: './angular-cli.json',
       environment: 'dev'
     },
-    reporters: config.angularCli && config.angularCli.codeCoverage
-              ? ['progress', 'karma-remap-istanbul']
-              : ['progress'],
+    reporters: ['progress', 'coverage'],
+
+    // config.angularCli && config.angularCli.codeCoverage
+    // ? ['progress', 'karma-remap-istanbul']
+    // : ['progress'],
     port: 9876,
     colors: true,
     logLevel: config.LOG_INFO,
     autoWatch: true,
     browsers: ['Chrome'],
-    singleRun: false
+    singleRun: false,
+    coverageReporter: {
+      includeAllSources: true,
+      dir: 'coverage/',
+      reporters: [
+        { type: "html", subdir: "html" },
+        { type: 'text-summary' }
+      ]
+    }
   });
 };
+
+// module.exports = function (config) {
+//   config.set({
+//     basePath: '',
+//     frameworks: ['jasmine', 'angular-cli'],
+//     files: [
+//       { pattern: './src/test.ts', watched: false }
+//     ],
+//     preprocessors: {
+//       './src/test.ts': ['angular-cli']
+//     },
+//     angularCli: {
+//       config: './angular-cli.json',
+//       environment: 'dev'
+//     },
+//     plugins: [
+//       'karma-jasmine',
+//       require('karma-chrome-launcher'),
+//       //'karma-phantomjs-launcher',
+//       'karma-coverage',
+//       require('angular-cli/plugins/karma')
+//     ],
+//     reporters: ['progress', 'coverage'],
+//     port: 9878,
+//     colors: true,
+//     logLevel: config.LOG_DEBUG,
+//     autowatch: true,
+//     browsers: ['Chrome'],
+//     // browsers: ['PhantomJS'],
+//     singleRun: false,
+//     concurrency: Infinity,
+//     coverageReporter: {
+//       includeAllSources: true,
+//       dir: 'coverage/',
+//       reporters: [
+//         { type: "html", subdir: "html" },
+//         { type: 'text-summary' }
+//       ]
+//     }
+//   });
+// };
